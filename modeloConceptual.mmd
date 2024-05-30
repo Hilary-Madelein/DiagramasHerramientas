@@ -1,0 +1,48 @@
+classDiagram
+    direction LR
+    
+    class Cliente {
+        RUT
+        nombres
+        apellidos
+        fechaNacimiento
+    }
+    
+    class TipoCliente {
+        nombre
+        descripcion
+        porcentajeDescuento
+    }
+
+    class Reservacion {
+        fecha
+        fechaInicio
+        numeroNoches
+        porcentajeDesc
+        total
+    }
+
+    class Habitacion {
+        numero
+        precio
+        estado
+    }
+
+    class Imagen {
+        numero
+        contenido
+        tipo
+    }
+
+    class TipoHabitacion {
+        nombre
+        descripcion
+    }
+
+    Reservacion "1" -- "1..*" Habitacion
+    Cliente -- TipoCliente
+    Reservacion "1..*" -- "1" Cliente   
+    Habitacion "*" -- TipoHabitacion
+    Habitacion -- "1..*" Imagen
+
+    

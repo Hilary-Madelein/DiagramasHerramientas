@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <title>Diagramas a partir de texto</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link type=‘text/css’ rel=‘stylesheet’ href=‘https://www.uco.es/~in1rosaj/tools/jsUML2/ejemplos/css/UDStyle.css’
+    media=‘screen’ />
+
+  <script type="text/javascript" src="https://www.uco.es/~in1rosaj/tools/jsUML2/ejemplos/UDCore.js"></script>
+  <script type="text/javascript" src="https://www.uco.es/~in1rosaj/tools/jsUML2/ejemplos/UDModules.js"></script>
+
+  <script type="text/javascript">
+    window.onload = function () {
+
+      var classDiagram = new UMLClassDiagram(
+        { id: 'classDiagram', width: 1000, height: 600 }
+      );
+      classDiagram.setName('Modelo Hoteles')
+
+      // CLASES
+      var cliente = new UMLClass({ x: 50, y: 50 });
+      var tipo_cliente = new UMLClass({ x: 50, y: 255 });
+      var reservacion = new UMLClass({ x: 350, y: 40 });
+      var habitacion = new UMLClass({ x: 600, y: 50 });
+      var tipo_habitacion = new UMLClass({ x: 575, y: 255 });
+      var imagen = new UMLClass({ x: 800, y: 50 });
+      var nota = new UMLNote({ x: 500, y: 500 });
+      var notaTH = new UMLNote({ x: 610, y: 400 });
+      var notaTC = new UMLNote({ x: 100, y: 400 });
+
+      cliente.setName("CLiente");
+      cliente.addAttribute('+RUT:String');
+      cliente.addAttribute('+nombres:String');
+      cliente.addAttribute('+apellidos:String');
+      cliente.addAttribute('+fechaNacimiento:String');
+
+      tipo_cliente.setName("TipoCliente");
+      tipo_cliente.addAttribute('+nombre:String');
+      tipo_cliente.addAttribute('+descripcion:String');
+      tipo_cliente.addAttribute('+porcentajeDescuento:int');
+
+      reservacion.setName("Reservacion");
+      reservacion.addAttribute('+fecha:Date');
+      reservacion.addAttribute('+fechaInicio:Date');
+      reservacion.addAttribute('+numeroDias:int');
+      reservacion.addAttribute('+porcentajeDesc:int');
+      reservacion.addAttribute('total');
+
+      habitacion.setName("Habitacion");
+      habitacion.addAttribute('+numero:int');
+      habitacion.addAttribute('+precio:double');
+      habitacion.addAttribute('+estado:String');
+
+      tipo_habitacion.setName("TipoHabitacion");
+      tipo_habitacion.addAttribute('+nombre: String');
+      tipo_habitacion.addAttribute('+descripcion: String');
+
+      imagen.setName("Imagen");
+      imagen.addAttribute('+nombre:String');
+      imagen.addAttribute('+contenido:String');
+      imagen.addAttribute('+tipo:String');
+      
+      nota.setName('Elaborado por:\n Hilary Madeley Calva Camacho');
+      
+      notaTC.setName('Habituales 60%,\n Esporadicos 0%');
+      
+      notaTH.setName('Simples,\n Dobles,\n Matrimoniales');
+
+
+      classDiagram.addElement(cliente);
+      classDiagram.addElement(tipo_cliente);
+      classDiagram.addElement(reservacion);
+      classDiagram.addElement(habitacion);
+      classDiagram.addElement(tipo_habitacion);
+      classDiagram.addElement(imagen);
+      classDiagram.addElement(nota);
+      classDiagram.addElement(notaTC);
+      classDiagram.addElement(notaTH);
+
+      // RELACIONES
+      var asociacion = new UMLAssociation({ a: cliente, b: reservacion });
+      asociacion.setMultiplicityA('1');
+      asociacion.setMultiplicityB('1..*');
+      classDiagram.addElement(asociacion);
+
+      var asociacion = new UMLAssociation({ a: cliente, b: tipo_cliente });
+      asociacion.setMultiplicityA('*');
+      classDiagram.addElement(asociacion);
+
+      var asociacion = new UMLAssociation({ a: reservacion, b: habitacion });
+      asociacion.setMultiplicityA('1');
+      asociacion.setMultiplicityB('1..*');
+      classDiagram.addElement(asociacion);
+
+      var asociacion = new UMLAssociation({ a: habitacion, b: tipo_habitacion });
+      asociacion.setMultiplicityA('*');
+      classDiagram.addElement(asociacion);
+
+      var asociacion = new UMLAssociation({ a: habitacion, b: imagen });
+      asociacion.setMultiplicityB('1..*');
+      classDiagram.addElement(asociacion);
+
+      var asociacion = new UMLAssociation({ a: tipo_cliente, b: notaTC,});
+      classDiagram.addElement(asociacion);
+
+      var asociacion = new UMLAssociation({ a: tipo_habitacion, b: notaTH,});
+      classDiagram.addElement(asociacion);
+
+      classDiagram.draw();
+      classDiagram.interaction(true);
+
+    }
+  </script>
+</head>
+
+<body>
+
+  <div class="row">
+    <div class="col-md-10 m-auto my-5">
+      <div class="card">
+        <div class="card-header">
+          <strong>Diagrama de clases con jsUML2 (PIM)</strong>
+        </div>
+        <div class="card-body">
+          <p>
+            Ejemplo librería <a target="_blank"
+              href="https://www.uco.es/users/in1rosaj//tools/jsUML2/doc/TheProgrammersGuide_003.htm">jsUML2</a>
+            para crear diagramas a partir de texto y su
+            <a target="_blank" href="https://www.uco.es/~in1rosaj/tools/jsUML2/editor/index.html">Live editor</a>
+          </p>
+          <div id="classDiagram"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
